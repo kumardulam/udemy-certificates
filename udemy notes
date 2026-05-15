@@ -1,0 +1,1270 @@
+Jenkins 2 Bootcamp: Fully Automate Builds to Deployment 2020
+
+From <https://cognizant.udemy.com/course/jenkins-continuous-integration-bootcamp/learn/lecture/5161430#overview> 
+
+
+ Build Maturity
+
+From <https://cognizant.udemy.com/course/jenkins-continuous-integration-bootcamp/learn/lecture/5161430#overview> 
+
+
+Stage	What It Means
+1. No process	Build manually on someone’s computer.
+2. Minimal build	Use tools like Maven/Gradle to automate building.
+3. Build server	Jenkins builds code automatically.
+4. Continuous Inspection	Auto-build + tests + code quality checks.
+5. Continuous Integration	Same as inspection plus branching strategy + release process.
+6. Continuous Delivery	Automatic deployment to test and near-automatic release to production.
+
+
+
+About jenikins
+
+Concept	Meaning (Easy)
+Host system	Machine where Jenkins is installed
+Jetty	Default server Jenkins runs on
+JDK	Needed to run Jenkins properly
+Service	Starts and manages Jenkins
+Views	Groups of projects
+Project/Job	Build configuration
+Executors	Workers that run jobs
+Plugins	Add functionality to Jenkins
+Workspace	Folder where build files are stored
+
+
+
+PMD, Checkstyle, SpotBugs
+
+⭐ What These Tools Are
+	1. These are static code analysis tools for Java.
+	2. They check code without running it.
+	3. They help find mistakes early in development.
+
+⭐ PMD – Programming Mistake Detector
+	• Scans source code.
+	• Finds bad practices (code smells).
+	• Detects: 
+		○ Unused variables
+		○ Empty catch blocks
+		○ Duplicate code (CPD)
+		○ Over‑complex code
+	• Purpose: Improve code quality and maintainability.
+
+⭐ Checkstyle
+	• Checks coding style and formatting.
+	• Detects: 
+		○ Naming issues
+		○ Wrong indentation
+		○ Line length violations
+		○ Brace formatting
+		○ Javadoc issues
+	• Purpose: Keep code consistent, readable, and standardised.
+
+⭐ SpotBugs (FindBugs)
+	• Analyzes compiled bytecode.
+	• Finds real runtime bugs.
+	• Detects: 
+		○ Possible NullPointerExceptions
+		○ Wrong equals/hashCode
+		○ Thread-safety issues
+		○ Dead stores
+	• Purpose: Improve correctness and prevent crashes.
+
+⭐ Where They Are Used
+	• Maven and Gradle builds
+	• Jenkins/GitHub Actions CI pipelines
+	• IntelliJ / Eclipse IDEs
+
+⭐ Why They Are Important
+	• Catch errors early
+	• Reduce debugging time
+	• Maintain quality and consistency
+	• Avoid production bugs
+	• Easier code reviews
+
+⭐ Ultra‑Short Memory Trick
+	• PMD → Bad coding practices
+	• Checkstyle → Style and formatting
+	• SpotBugs → Actual bugs in bytecode
+
+PMD/Checkstyle/SpotBugs → individual tools
+Static Analysis Collector Plugin → combines all their results into one report
+
+• Static Analysis Collector → Old, deprecated.
+• Warnings‑NG → New, modern plugin that shows all static analysis warnings in one place.
+• Supports 100+ tools, provides trend graphs, detailed reports, and Git integration.
+
+• A Maven repository server plugin is a plugin that uploads your project artifacts (JAR/WAR) to a remote repository server.
+• Examples: 
+	• maven-deploy-plugin → default uploader
+	• nexus-staging-maven-plugin → for Nexus staging
+	• Artifactory plugin → for JFrog Artifactory
+• Used in build pipelines to publish artifacts internally or externally.
+
+
+What is Tomcat?	A Java Servlet & JSP web server used to run Java applications.
+Why use Tomcat?	Lightweight, fast, open-source, widely used, perfect for Java web apps.
+Where is it used?	In companies, production servers, cloud platforms, developer environments.
+
+
+• Jenkins Deploy to Container plugin deploys WAR/EAR to servers like Tomcat, JBoss, GlassFish.
+• Simple setup: build → post-build action → deploy.
+• Supports Freestyle + Pipeline jobs.
+• Requires configuring server credentials & access.
+
+74.249.193.172
+
+🔹 1. DevOps
+DevOps is a modern way of developing software where development and operations teams work together and use automation to deliver software faster, safer, and with fewer errors.
+
+🔹 2. Continuous Integration (CI)
+CI means developers frequently upload their code to a shared repository, and the system automatically builds and tests the code to catch errors early.
+
+🔹 3. Continuous Delivery (CD)
+CD ensures that the software is always ready to be deployed.
+Deployment to production still needs manual approval.
+
+🔹 4. Continuous Deployment
+Every valid code change is automatically deployed to production without human approval.
+
+🔹 5. Jenkins
+Jenkins is a free, open‑source automation tool that automates building, testing, and deploying software (CI/CD tool).
+
+🔹 6. Jenkins Plugins
+Plugins are add‑ons that help Jenkins work with tools like Git, Maven, Docker, AWS, Azure, etc.
+They add extra features and integrations.
+
+🔹 7. Jenkins Pipeline
+A Jenkins Pipeline is a scripted set of automated steps (build → test → deploy) that defines how the project moves through CI/CD.
+
+🔹 8. Jenkins Master (Controller)
+This is the main control center of Jenkins.
+It:
+	• Pulls code
+	• Schedules jobs
+	• Assigns work to agents
+	• Shows build/test results
+	• Manages plugins and configuration
+
+🔹 9. Jenkins Slave / Agent (Worker Node)
+A worker machine that actually runs builds, tests, and deployments assigned by the Jenkins master.
+
+🔹 10. Master–Slave Architecture
+A setup where:
+	• Master = controls everything
+	• Slaves/Agents = do the actual work
+This helps Jenkins manage many tasks faster.
+
+🔹 11. Source Code Repository
+A place where code is stored and tracked.
+Examples: GitHub, GitLab, Bitbucket.
+
+🔹 12. Build
+The process of converting source code into a working application (e.g., .exe, .jar, .apk).
+
+🔹 13. Deployment
+Releasing the application into an environment like:
+	• Development
+	• Testing
+	• Production
+
+🔹 14. Automation
+Using tools to do tasks automatically so developers don't have to do them manually.
+Saves time and reduces errors.
+
+🔹 15. Regression Testing
+Testing the whole system again to ensure new changes did not break existing features.
+
+Bitbucket
+A Git-based platform used to store and manage source code.
+It allows teams to collaborate, version their code, and connect with CI/CD tools.
+Maven
+A Java build tool that compiles code, handles dependencies, and packages applications.
+Its entire build process is controlled through a single XML file.
+pom.xml
+The main Maven configuration file containing dependencies, plugins, modules, and project details.
+It defines exactly how the project should be built.
+
+Maven Coordinates
+A unique identity for a Maven artifact, made of groupId, artifactId, and version.
+This allows Maven to find, download, and manage the correct package.
+
+Multi‑Module Maven Project
+A project structure where a parent Maven project manages multiple sub-modules.
+All modules share the main pom.xml and can be built together.
+
+JAR File
+A Java archive containing compiled classes and resources for normal applications.
+It cannot be deployed on web servers like Tomcat.
+
+WAR File
+A web application archive containing JSP, HTML, servlets, and web resources.
+It is meant to be deployed on servers such as Apache Tomcat.
+
+Gradle
+A flexible build automation tool that uses Groovy or Kotlin scripts.
+It manages compilation, testing, dependencies, and packaging in a modern way.
+
+Gradle Wrapper (gradlew)
+A script that automatically downloads and uses the correct Gradle version for a project.
+It ensures builds run the same everywhere without installing Gradle manually.
+
+Artifactory
+A repository manager used to store build outputs like JARs and WARs.
+It organizes and provides artifacts for deployments and other projects.
+
+Jenkins
+A CI/CD automation server that builds, tests, and deploys code automatically.
+It triggers pipelines whenever new changes are pushed to the repository.
+
+Apache Tomcat
+A Java web server used to deploy and run WAR-based applications.
+It processes servlets, JSP pages, and web application logic.
+
+Artifact
+The final packaged output of a build, such as a JAR or WAR file.
+It is stored in repositories like Artifactory for later use.
+
+Repository (in Artifactory)
+A storage location where artifacts are uploaded, versioned, and managed.
+Common types include release repositories and snapshot repositories.
+
+
+Version Control Systems:
+Source control systems help track changes in code, documents, and project files. They allow multiple people to work together without overwriting each other’s work.
+There are two major types:
+. Local Version Control Systems
+	• Stores file versions only on your local computer.
+	• Keeps track of changes using simple databases.
+	• Example: RCS (Revision Control System).
+	• Pros: Easy to use.
+	• Cons: Not suitable for team collaboration.
+
+🟦 1. Centralized Version Control Systems (CVCS)
+	• Has one central server storing the main repository.
+	• Developers check-out files, edit, then commit back to server.
+	• Examples: SVN, Perforce, CVS.
+✔️ Advantages
+	• Easy to understand.
+	• Centralized access control.
+	• Simple backup and administration.
+❌ Disadvantages
+	• Single point of failure (if server is down, no one can work).
+	• Requires constant internet connection.
+	• Merging and branching can be difficult.
+
+🟩 2. Distributed Version Control Systems (DVCS)
+	• Every developer gets a full copy of the repository.
+	• Work can be done offline.
+	• Changes are later pushed/pulled to a shared server.
+	• Examples: Git, Mercurial.
+✔️ Advantages
+	• Very fast (local commits).
+	• Offline development possible.
+	• Easy branching and merging.
+	• More secure: multiple backups (every developer has a copy).
+❌ Disadvantages
+	• Initial learning curve.
+	• Every developer stores the full repo → more disk usage.
+
+ Cloud‑Based Source Control Platforms
+(Not version control types, but tools built on top of Git)
+	• Host repositories online for collaboration.
+	• Examples: 
+		○ GitHub
+		○ GitLab
+		○ Bitbucket
+		○ Azure DevOps Repos
+✔️ Advantages
+	• Code hosting + access anywhere.
+	• Integrates with CI/CD pipelines.
+	• Pull requests, code reviews, issue tracking.
+	• Excellent for team projects.
+
+
+..Git is a distributed version control system that helps track code changes, manage branches, and enable multiple developers to work on a project without conflicts.
+
+
+1. What is a Repository (Repo)?
+	• A repository is a container that holds your project files.
+	• It also stores the entire history of changes.
+	• Every Git project has a hidden folder .git → this stores the data.
+👉 Think of a repo as a project + its time machine.
+
+🟩 2. Working Directory (Working Tree)
+	• This is the actual folder on your computer where your project files are kept.
+	• You edit, create, delete files here.
+	• Git can see these files, but they are not tracked until you tell Git to track them.
+👉 Working directory = “Your work area”.
+
+🟧 3. Staging Area (Index)
+	• A temporary holding zone.
+	• You use it to prepare which changes should go into the next commit.
+	• You add files to this area using: 
+git add <filename>
+👉 Staging area = “Basket where you select items for checkout”.
+You can:
+	• Add files
+	• Remove files
+	• Change your mind
+Nothing affects history until you commit.
+
+🟥 4. Git Repository (Local Repo / Commit History)
+	• Once you commit, the changes move from staging area into the local repository.
+	• This becomes a permanent snapshot in the history.
+Command:
+git commit -m "message"
+👉 Local repo = “History book of your project”.
+
+🔷 5. Remote Repository (Optional but commonly used)
+	• This is a copy of your repository stored on a server like: 
+		○ GitHub
+		○ GitLab
+		○ Bitbucket
+		○ Azure DevOps
+	• Used for teamwork and backup.
+Commands:
+git push     → send your changes to remote
+git pull     → get latest changes from remote
+
+👉 Remote repo = “Online backup + collaboration point”.
+
+🟨 6. Master Branch (or Main Branch)
+	• Git starts with a default branch called master (older Git) or main (newer Git).
+	• A branch is like a timeline of your code changes.
+	• You can create your own branches to work separately.
+👉 Branch = “Separate line of work”.
+
+
+Step	Command	Meaning
+Check Git	git version	Git installed or not
+Configure	git config --global ...	Set your identity
+Clone	git clone URL	Copy repo from GitHub
+Status	git status	Check current changes
+Add	git add filename	Move to staging
+Commit	git commit -m ""	Save to local repo
+Push	git push	Upload to GitHub
+
+
+Stage file	git add file.txt
+Stage everything	git add .
+Commit	git commit -m "message"
+Unstage file	git restore --staged file.txt
+Undo last commit (keep changes)	git reset --soft HEAD~1
+
+git commit -am ""	Add & commit tracked files
+git ls-files	Show tracked files
+
+Untracked	Git doesn’t know about the file yet
+
+Git only commits what is in the staging area.
+Anything not staged is ignored until you add it.
+
+Staging area	You control what goes into each commit
+Staged changes	Ready to be committed
+Unstaged changes	Still in working area
+
+Git reset HEAD filename : unstage file
+Git checkout --filename : back to working directiry
+
+Rename a file using Git	git mv old new
+Move a file to another folder (with Git)	git mv file folder/
+Undo Git rename before commit	git mv new old
+Rename/move file using OS (mv/File Explorer)	git add -A
+Avoid adding unwanted system files	git add newfile.txt + git add -u
+
+rm filename.txt  
+Delete an UNTRACKED file (file Git does NOT know yet)
+git rm filename.txt
+Delete a TRACKED file (Git is tracking it)
+
+git reset HEAD filename.txt
+
+Unstage a deletion (if you changed your mind)
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMf+9H87An6QadGesbVjPFuvKB3Qda3+9TJP4Dqb58YE kumar@gitvm
+manu@@221
+
+git log	View full commit history
+git log --oneline --graph --decorate	Clean one-line branch visualization
+git log --since="X"	Filter by date
+git log -- <file>	History of one file
+git log --follow -- <file>	Track file rename history
+git show <commit>	Show changes in a specific commit
+What is a merge conflict?
+A merge conflict happens when two branches change the same part of the same file, and Git cannot decide which version to keep.
+So Git asks you to choose.
+
+
+
+• git stash → hides your unfinished work
+• git stash apply / pop → brings the work back
+• git stash list → shows what you saved
+• git stash clear → removes all saved stashes
+Git stash = Temporary save without commit.
+
+• Tagging helps you label important milestones in your project.
+• Think of it like bookmarking a specific commit.
+• Useful for releases and versioning.
+Two types of tags in Git
+1. Lightweight Tags
+git tag v1.0
+
+Annotated Tags 
+Contain extra info:
+	• Tagger name
+	• Date
+	• Message
+git tag -a v1.0 -m "Version 1.0 release"
+
+
+Task	Command	What it shows
+Check full system disk	df -h	Total used/free Linux disk
+Check Docker disk usage	docker system df	Space used by images, containers, volumes
+Detailed Docker usage	docker system df -v	Per-container and per-image usage
+Create test file	dd …	To see how container grows
+
+--rm ensures the container deletes itself after finishing its task, keeping your environment clean.
+
+
+COPY is used to copy files/folders from your machine into the Docker image.
+COPY <source> <destination>
+
+• COPY = simple copy
+• ADD = copy + extract + download
+• Docker recommends COPY most of the time
+• Use ADD only for tar auto‑extract or rare special cases
+
+• EXPOSE is a documentation instruction in the Dockerfile that tells users which internal port the application listens on — but it does NOT publish the port.
+
+• HEALTHCHECK monitors your app inside the container.
+• Runs a command every few seconds.
+• Exit code 0 → healthy, 1 → unhealthy.
+• Very useful for production.
+• Helps detect failures even when the container process is still running.
+• --interval	Time between health checks (default 30s)
+--timeout	Time allowed before declaring failure
+--start-period	Grace time before checks start (useful when app needs time to boot)
+--retries	How many failures mark container as unhealthy
+
+HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=3 \
+  CMD <your-health-command>
+
+
+
+⭐ Use ENTRYPOINT to define the main program
+⭐ Use CMD to define default arguments
+⭐ CMD can be overridden
+⭐ ENTRYPOINT cannot be overridden (only extended)
+
+ENTRYPOINT sets the fixed main command; CMD sets defaults that can be replaced.
+
+
+• WORKDIR = sets the folder where instructions will run
+• It replaces the need for cd commands
+• Directories get created automatically
+• Commands like RUN, CMD, COPY, ADD follow the active WORKDIR
+• Multiple WORKDIRs build nested folders
+
+
+• ENV sets environment variables
+• You can use them anywhere in Dockerfile
+• You can override them using docker run -e
+• You can pass many variables using an env-file
+• Values are available inside the container at runtime
+
+
+A Docker tag is a label you attach to a Docker image so you can identify it easily.
+
+docker build -t demo:version1 .   --To tag the image while buliding 
+docker tag <image-id> demo:v2   --to tag the exiting image
+
+
+docker commit is used to create a new Docker image from a running container.
+
+docker commit "containername" "imagename"
+Docker images
+Docker run -it --name containername imagename 
+
+
+A Docker image is made of multiple layers.
+✅ Each instruction in a Dockerfile creates one new layer
+✅ Layers are stacked on top of each other
+✅ The final output is the image
+✅ Layers are read‑only
+✅ Containers add a top writable layer
+
+docker history nginx   --to view image layers
+
+docker image inspect allows you to view the complete internal metadata of any Docker image.
+docker image inspect <image-name>
+docker image inspect nginx --format '{{.Id}}'   --flitering the needed information
+
+docker image prune is a cleanup command that removes unused Docker images from your system.
+It helps you reclaim disk space and keep your Docker environment clean.
+• Dangling images → <none> tag + unused
+• docker image prune removes only dangling images
+• docker image prune -a removes ALL unused images
+• Images with running containers are NEVER removed
+• Useful for freeing disk space
+
+
+Flattening a Docker Image” Mean 
+Create a “flat” image = only ONE layer
+This is called flattening an image.
+
+Concept	Explanation
+More layers = bigger image	Layers store delta changes → image gets bloated
+Flattening	Combine all layers into one layer
+How?	docker export → docker import
+Result	Smaller, cleaner, single-layer image
+Downsides	Loses metadata & caching
+
+
+
+• A Docker registry stores Docker images centrally.
+• Docker Hub is the default public registry.
+• Organizations use private registries for security.
+• A local registry can be started using registry:2.
+• To push: 
+	1. Tag the image using registry address
+	2. Run docker push
+• To pull: 
+	• Use docker pull <registry>/<image>
+
+Login	docker login	Authenticate
+Tag image	docker tag SOURCE USER/REPO:TAG	Prepare for push
+Push	docker push USER/REPO:TAG	Upload to Docker Hub
+Pull	docker pull USER/REPO:TAG	Download from Docker Hub
+Logout	docker logout	End session
+
+
+
+docker search lets you search for Docker images stored on Docker Hub (the default public registry).
+
+Search images	docker search nginx	Find related images
+Limit results	--limit 5	Show only top 5
+Filter official	--filter "is-official=true"	Show only official image
+Filter stars	--filter "stars=100"	Show only popular images
+Filter automated builds	--filter "is-automated=true"	Show auto-built images
+
+
+Base Dockerfile
+
+FROM busybox
+RUN touch custom.txt
+CMD ["/bin/sh"]
+docker build -t myapp .
+Save and Load Images
+
+docker save myapp > myapp.tar
+docker load < myapp.tar
+✅ docker save = the correct command for image transfer
+✅ docker load = the correct command for importing images
+
+
+• Docker builds images step-by-step using layers
+• Docker stores layers in a cache
+• If a layer hasn’t changed → Docker reuses cached version
+• If one layer changes → all layers after it must rebuild
+• Build cache dramatically speeds up builds
+• You can disable cache using --no-cache
+
+
+Networking
+• Docker provides virtual networks using drivers
+• Default drivers: bridge, host, none
+• More advanced: overlay, macvlan
+• docker0 is the default Linux bridge
+• Containers get IPs based on network CIDR
+• Use docker network inspect to view details
+• You can attach containers to any network
+• Networking is essential for multi-container apps
+
+Driver	Purpose
+bridge	Default container network
+host	Share host network stack
+none	Disable all networking
+macvlan	Assign MAC/IP on physical network
+overlay	Multi-node communication (Swarm)
+
+• Bridge network is Docker’s default network
+• Uses docker0 virtual bridge
+• Containers get IPs like 172.17.0.x
+• Containers on same bridge can talk
+• Internet traffic goes via docker0 + iptables
+• Default bridge exists automatically
+
+A user‑defined bridge network is a custom Docker bridge that provides DNS‑based container communication, better isolation, and advanced network configuration.
+
+• Bridge is the default Docker network
+• User‑defined bridge supports DNS resolution
+• Each user‑defined bridge creates its own Linux bridge interface
+• Containers can talk using container names
+• More secure and flexible than default bridge
+
+
+docker network create --driver bridge mybridge      --to cre3ate user defijned brigde network
+docker network inspect mybridge                  -- to inspect custom bridge netwok
+
+
+docker container run -it --name mybridge01 --network mybridge ubuntu  ----to run the container in user-defined network
+docker container run -it --name mybridge02 --network mybridge ubuntu
+
+
+Docker host networking removes network isolation and allows a container to share the host’s network stack directly.
+When you use the host network driver:
+	• Docker does NOT create a virtual network interface for the container
+	• Docker does NOT assign a separate IP address to the container
+	• The container shares the host’s IP address
+	• The container can see all host network interfaces
+
+Docker none network completely disables networking for a container, providing maximum isolation.
+• ✅ none network disables networking completely
+• ✅ No IP address is assigned
+• ✅ Only loopback interface is present
+• ✅ Highest level of isolation
+• ✅ Used for security‑critical workloads
+
+• -p publishes specific ports from container to host
+• -P publishes all exposed container ports to random host ports
+
+Docker container linking (--link) is a legacy feature that enables name‑based communication between containers by adding host entries.
+
+
+
+
+
+Container orchestration automates deployment, scaling, networking, and recovery of containers.
+
+What Container Orchestration Does (Core Responsibilities)
+At a high level, orchestration tools handle:
+✅ Container deployment
+✅ Auto‑scaling (up & down)
+✅ Load balancing
+✅ Health checks
+✅ Fault tolerance
+✅ Networking between containers
+✅ Traffic routing
+
+What is Docker Swarm?
+Docker Swarm is Docker’s built‑in clustering and orchestration tool.
+It allows multiple Docker nodes (VMs/servers) to work together as a single cluster.
+	• Manager = brain (controls cluster)
+	• Worker = muscle (runs containers)
+	• Services = apps deployed on the cluster
+	• Tasks = container instances
+	• Overlay network = communication between nodes
+
+	
+	Purpose	Command
+	Start swarm	docker swarm init
+	Join worker	docker swarm join --token
+	View nodes	docker node ls
+	Create service	docker service create
+	Scale	docker service scale web=5
+	Deploy stack	docker stack deploy
+	Leave swarm	docker swarm leave
+
+Change the Node Availability to Drain
+docker node update --availability drain swarm03
+Verify Node status
+docker node ls
+Change the Node Availability To Active
+docker node update --availability active swarm03
+
+Inspecting a Service
+
+docker service inspect demotroubleshoot
+docker service inspect demotroubleshoot --pretty
+
+Inspecting a Node
+
+docker node inspect swarm01 
+docker node inspect swarm01 -pretty
+
+Create a Service by Publishing port
+docker service create --name mywebserver --replicas 1 --publish 8080:80 nginx
+Verify Ports in Linux Server
+netstat -ntlp
+Verify IP address
+ifconfig eth0
+Curl Request to IP on port 8080
+curl 142.93.214.57:8080
+
+
+What is an Azure Region?
+An Azure Region is a geographical location where Microsoft has one or more datacenters.
+Examples:
+	• Central India
+	• East US
+	• West Europe
+Each region is physically separated from other regions by hundreds of kilometers.
+
+
+✅ What is an Availability Zone?
+An Availability Zone is a physically separate datacenter inside a region.
+Each zone has:
+	• Independent power
+	• Independent cooling
+	• Independent network
+Most regions have 3 zones:
+	• Zone 1
+	• Zone 2
+	• Zone 3
+
+✅ What problem does a Zone solve?
+✔ Protects against datacenter failure
+✔ Provides High Availability (HA)
+✔ Keeps app running during local failures
+
+What is an Availability Set?
+An Availability Set is a logical grouping of VMs within a single datacenter to protect against:
+	• Hardware failures
+	• Planned maintenance
+It works using:
+	• Fault Domains → different hardware racks
+	• Update Domains → different maintenance windows
+
+✅ What problem does a Set solve?
+✔ Protects against server / rack failure
+✔ Protects during Azure maintenance
+❌ Does NOT protect against datacenter failure
+
+
+Cloud computing is the delivery of computing services—such as servers, storage, databases, networking, and software—over the internet, so you don’t need to buy or manage physical hardware yourself.
+
+Azure Cloud Service is an older Platform as a Service (PaaS) in Microsoft Azure used to build and run scalable applications without managing servers.
+It is now legacy and has mostly been replaced by Azure App Service, Virtual Machines, and AKS.
+
+6)
+The various models available for cloud deployment are:
+	1. Public Cloud – Cloud services are owned and managed by a third‑party provider (like Azure, AWS) and shared by many users over the internet.
+	2. Private Cloud – Cloud infrastructure is used by only one organization, offering more control and security.
+	3. Hybrid Cloud – A combination of public and private clouds, allowing data and applications to move between them.
+	4. Multi‑Cloud – Using services from multiple cloud providers at the same time.
+
+7)
+Azure Monitor is a service in Azure that collects, analyzes, and shows data about how your Azure resources and applications are working.
+8)
+Azure SLA tells you how much uptime Azure guarantees for its services.
+
+9)
+ARM is the service that Azure uses to manage all resources—VMs, storage, networks, databases—everything.
+10)
+A Network Security Group (NSG) is an Azure networking security feature that acts as a basic firewall to control inbound and outbound traffic to Azure resources.
+
+11)
+• Azure Blob Storage – Object storage for unstructured data like images, videos, logs, and backups.
+• Azure File Storage – Cloud‑based shared file system accessible using SMB/NFS protocols.
+• Azure Disk Storage – Block storage used as OS and data disks for Azure Virtual Machines.
+• Azure Queue Storage – Message storage for asynchronous communication between application components.
+• Azure Table Storage – NoSQL key‑value storage for structured, non‑relational data.
+
+12)
+• LRS (Locally Redundant Storage) – Stores 3 copies of data in a single datacenter for protection against hardware failure.
+• ZRS (Zone‑Redundant Storage) – Stores data across multiple availability zones in the same region for datacenter‑level failure protection.
+• GRS (Geo‑Redundant Storage) – Replicates data to a secondary region to protect against regional outages.
+• GZRS (Geo‑Zone‑Redundant Storage) – Combines zone‑level and region‑level replication for maximum availability and disaster recovery.
+13)
+• Hot Tier – Used for data accessed frequently with the lowest lookup latency.
+• Cool Tier – Used for data accessed occasionally to reduce storage cost.
+• Cold Tier – Used for rarely accessed data that must stay online at low cost.
+• Archive Tier – Used for long‑term data stored offline with delayed retrieval.
+14)
+Azure Virtual Machine Scale Sets (VMSS) allow you to deploy and manage a group of identical Virtual Machines (VMs) that can automatically scale in or out based on demand.
+15)
+
+IAM ensures the right identity gets the right access to the right resource at the right time.
+
+🧩 Azure Active Directory (Microsoft Entra ID)
+• Entra ID – Cloud identity service for authentication and authorization.
+• Purpose – Manage users, apps, and access to Azure & Microsoft services.
+• Used by – Azure Portal, M365, SaaS apps, custom apps.
+Memory line: Entra ID = Who you are
+
+👤 Users, Groups & Service Princ
+✅
+
+From <https://m365.cloud.microsoft/chat/conversation/2c2df360-3e73-4cd9-9a32-05f40c446977?fromcode=edgentp&redirectid=69a969cb067a4a5a9debd00128373384&auth=2&handinClickTs=1772710483073> 
+
+ipals
+• User – Human identity (employee, admin).
+• Group – Collection of users for easier permission management.
+• Service Principal – Identity for apps and automation (CI/CD).
+Best practice: Assign access to groups, not individuals.
+Memory line: User = human, Group = users, SP = app
+
+🧰 RBAC (Role‑Based Access Control)
+• RBAC – Controls who can do what on which Azure resource.
+• Common roles – Reader, Contributor, Owner.
+• Scopes – Management Group → Subscription → Resource Group → Resource.
+• Principle – Least privilege.
+Memory line: RBAC = Who + What + Where
+
+🔑 Managed Identities
+• Managed Identity – Password‑less authentication between Azure services.
+• System‑Assigned – Tied to a single resource; deleted with it.
+• User‑Assigned – Reusable across resources; independent lifecycle.
+Use case: VM/App accesses Key Vault without secrets.
+Memory line: Managed Identity = no passwords
+
+🧠 Conditional Access
+• Conditional Access – Enforces access rules at sign‑in time.
+• Conditions – Location, device, risk, app.
+• Examples – Require MFA from outside office network.
+Memory line: Conditional Access = smart login rules
+
+🛡️ Privileged Identity Management (PIM)
+• PIM – Provides just‑in‑time, time‑bound admin access.
+• Benefits – Reduces standing admin risk, adds auditing.
+• Flow – Eligible → Request → Approve → Time‑limited access.
+Memory line: PIM = temporary admin
+
+🔌 App Registrations & API Permissions
+• App Registration – Creates an app identity in Entra ID.
+• API Permissions – Define what APIs an app can access. 
+	○ Delegated – User is signed in.
+	○ Application – App runs without user.
+• Common API – Microsoft Graph.
+Memory line: App Registration = app identity
+
+
+
+All People Seem To Need Data Processing
+
+Layer	Name	Key Role
+7	Application	User interaction
+6	Presentation	Encryption & format
+5	Session	Session management
+4	Transport	TCP/UDP & ports
+3	Network	IP & routing
+2	Data Link	MAC & switching
+1	Physical	Cables & signals
+
+Core Networking
+	• Virtual Network (VNET) – A private network in Azure that securely connects resources using private IPs.
+	• Subnet – A smaller IP range inside a VNET used to organize and secure resources.
+	• IP Addressing – Azure uses private IPs for internal traffic and public IPs for internet access (CIDR based).
+
+• Network Security Group (NSG) – A basic firewall that allows or denies inbound/outbound traffic using rules.
+• Azure Firewall – A managed, centralized, enterprise firewall for advanced traffic inspection and logging.
+• Firewall Policy – Centralized rule management for Azure Firewalls across environments.
+
+Private Access
+	• Private Endpoint – Assigns a private IP to Azure PaaS services within a VNET.
+	• Private Link – Technology that enables private endpoints and removes public internet exposure.
+Network Connectivity
+	• VNET Peering – Connects two VNETs privately using Microsoft backbone (non‑transitive, no IP overlap).
+	• VPN Gateway – Encrypted connectivity to Azure over the public internet.
+	• ExpressRoute – Private, dedicated connectivity to Azure with high bandwidth and low latency.
+Azure DNS – Resolves domain names to IP addresses using Azure infrastructure (public/private zones)
+
+• Azure Load Balancer – A Layer‑4 service that distributes TCP/UDP network traffic across backend resources to ensure high availability and performance.
+• Azure Application Gateway – A Layer‑7 web load balancer that intelligently routes HTTP/HTTPS traffic and provides advanced features like URL‑based routing, SSL termination, and WAF security.
+
+Azure Virtual Machines (VMs)
+An Azure Virtual Machine is a cloud‑based server that provides full control over the operating system and installed software.
+
+VM Scale Sets (VMSS)
+VM Scale Sets automatically deploy and manage a set of identical virtual machines with auto‑scaling based on demand.
+
+Azure App Service is a PaaS offering that lets you host web applications and APIs without managing servers or operating systems.
+
+Azure Functions is a serverless compute service that runs code only when triggered, automatically managing infrastructure and scaling.
+
+Q1. Tell me about your project.
+	"I built an end-to-end CI/CD pipeline on Azure Cloud for a React Expense Tracker application. The application tracks income and expenses. I used Azure DevOps for the pipeline, Docker for containerization, Azure Container Registry for storing images, and Azure Kubernetes Service for running the application. The entire process from code commit to live application is fully automated using GitFlow branching strategy. No manual steps are needed — when a developer pushes code everything happens automatically."
+
+Q2. What is the main objective of your project?
+	"The main objective was to implement a production-grade CI/CD pipeline following GitFlow branching strategy. The goal was to ensure that every code change goes through proper build, test, and deployment stages automatically. Feature branches only build and test. Develop branch deploys to DEV environment. Main branch deploys to production. No one can push directly to main without a PR review and passing build."
+
+Q3. What technologies did you use and why?
+		○ React JS — for the frontend application
+		○ Docker — to containerize the app for consistent deployments
+		○ Azure Container Registry — private registry to store Docker images securely
+		○ Azure Kubernetes Service — managed Kubernetes platform to run containers
+		○ Azure DevOps — for CI/CD pipeline, source code, and environments
+		○ GitFlow — branching strategy to keep production always stable
+		○ Self-hosted Linux VM — build agent for faster builds with cached tools
+		○ Nginx — lightweight web server to serve the React static files
+
+CATEGORY 2 — Azure Infrastructure Questions
+
+Q4. What Azure resources did you create?
+	"I created four main resources inside a Resource Group called devops-project in Central India:
+		○ Azure Container Registry named ExpensetrackerappACR for storing Docker images
+		○ AKS cluster named Expensetracker-AKS with Kubernetes 1.34.6 for running the app
+		○ Linux VM named agentvm as self-hosted build agent
+		○ All linked together — AKS is directly attached to ACR so it can pull images without extra credentials"
+
+Q5. What is a Resource Group in Azure?
+	"A Resource Group is a logical container in Azure that holds all related resources together. In my project I created one Resource Group called devops-project which contains the AKS cluster, ACR, and the build agent VM. It makes management easier — you can see all resources in one place, apply policies together, and delete everything at once when no longer needed."
+
+Q6. What is Azure Container Registry and why did you use it?
+	"Azure Container Registry is a private Docker registry hosted on Azure. I used it to store the Docker images built by the pipeline. It is private — only authorized users and services can push or pull images. The AKS cluster is directly linked to it using managed identity with AcrPull role so it can pull images without any username or password. Login server is expensetrackerappacr.azurecr.io."
+
+Q7. What is AKS and why did you use it instead of running Docker directly?
+	"AKS is Azure Kubernetes Service — a fully managed Kubernetes platform. I used it instead of running Docker directly because:
+		○ Kubernetes automatically restarts pods if they crash
+		○ It manages rolling updates without downtime
+		○ It handles load balancing through Services
+		○ It manages resource allocation across nodes
+		○ Azure manages the control plane — I only manage the worker nodes Running Docker directly on a VM gives none of these benefits."
+
+Q8. Why did you use a self-hosted agent instead of Microsoft-hosted agent?
+	"I used a self-hosted agent for three reasons:
+		○ Tools like Docker, Node.js, kubectl stay installed between runs — no reinstall needed — builds are faster
+		○ Microsoft-hosted agents charge per minute — self-hosted has no extra cost
+		○ Full control over the environment — I can install any specific version of tools needed
+		○ The agent runs as a systemd service on the VM so it starts automatically on reboot without manual intervention"
+
+CATEGORY 3 — GitFlow and Branching Questions
+
+Q9. What is GitFlow? Why did you use it?
+	"GitFlow is a branching strategy that defines how code flows from development to production. I used three branch levels:
+		○ feature/* branches for development — build and test only
+		○ Develop branch as integration branch — deploys to DEV environment
+		○ main branch as production — deploys to live application I used GitFlow because it ensures broken code never reaches production. Every change must pass build validation and get reviewer approval before merging. This gives a clean, organized, and safe release process."
+
+Q10. What are branch policies and why are they important?
+	"Branch policies are rules enforced on branches that control how code can be merged. I configured:
+		○ Minimum 1 reviewer must approve the PR before merge
+		○ Build validation must pass — the pipeline must succeed
+		○ No direct push allowed to main or Develop — only via Pull Request They are important because they prevent broken or unreviewed code from reaching important branches. Without policies anyone could push directly to main and break production."
+
+Q11. What happens when a developer pushes code to a feature branch?
+	"When code is pushed to a feature branch the pipeline triggers automatically. Only the Build stage runs:
+		○ Install Node.js 16
+		○ npm install to get dependencies
+		○ npm run build to compile React app
+		○ npm test to run tests If build and tests pass the developer raises a Pull Request to Develop. Docker push and deployment do not happen on feature branches — only build validation."
+
+Q12. What happens when code is merged to Develop branch?
+	"When a PR is merged to Develop the pipeline triggers and runs three things:
+		○ Build and test the merged code
+		○ Build Docker image and push to ACR with tag Develop-45 (branch name + build ID)
+		○ Deploy to DEV environment using deployment.yaml and service-dev.yaml The app becomes available at http://4.247.195.11:8080 for testing."
+
+Q13. What happens when code is merged to main branch?
+	"When a PR is merged to main the pipeline triggers and:
+		○ Builds and tests the merged code fresh
+		○ Builds Docker image and pushes to ACR with tag main-22
+		○ Deploys to production using deployment.yaml and service.yaml The production app is live at http://4.247.195.11 on port 80."
+
+CATEGORY 4 — Docker Questions
+
+Q14. What is Docker and why did you use it?
+	"Docker is a containerization platform that packages an application with all its dependencies into a single unit called a container. I used Docker because:
+		○ It ensures the app runs the same way everywhere — dev, DEV, and production
+		○ The image is immutable — same image tested in DEV goes to production
+		○ Containers are lightweight and start in seconds
+		○ Kubernetes uses Docker images to create pods"
+
+Q15. Explain your Dockerfile.
+	"I used a two-stage Dockerfile: Stage 1 uses node:16-alpine as base. It copies package.json, runs npm install, copies source code, and runs npm run build. This compiles the React app into plain HTML, CSS and JavaScript files in the /app/build folder. Stage 2 uses nginx:alpine as base. It copies only the /app/build files from Stage 1. Node.js and all build tools are completely removed. The final image is only 25MB instead of 400MB because Node.js is not included in production."
+
+Q16. What is a multi-stage Docker build? Why did you use it?
+	"Multi-stage build means using multiple FROM statements in one Dockerfile. Each FROM starts a new stage. You can selectively copy files from one stage to another. I used it because:
+		○ Build stage needs Node.js to compile React — but production does not need Node.js
+		○ Without multi-stage the image would be 400MB including Node.js and node_modules
+		○ With multi-stage I copy only the /app/build output to Nginx — final image is 25MB
+		○ Smaller image means faster deployment, less storage cost, and smaller attack surface for security"
+
+Q17. What is the difference between COPY and RUN in Dockerfile?
+	"COPY copies files from local machine into the Docker image. For example COPY package.json ./ copies the package.json file into the container working directory. RUN executes a command inside the container during image build. For example RUN npm install runs npm install inside the container. Each RUN command creates a new layer in the image."
+
+Q18. Why do you copy package.json before copying all source code?
+	"This is a Docker caching optimization. Docker caches each layer. If I copy package.json first and run npm install, that layer is cached. When source code changes but package.json does not change, Docker reuses the cached npm install layer and skips reinstalling all packages. This saves 2 to 3 minutes on every build. If I copied all source code first, any code change would invalidate the npm install cache and reinstall everything every time."
+
+Q19. What is the purpose of ENV CI=false in Dockerfile?
+	"React's build process treats all warnings as errors when the CI environment variable is set to true. In a CI environment this is the default behavior. Without setting CI=false the build fails on any warning even minor ones. Setting ENV CI=false tells React to allow warnings during build without failing. This is needed for the Dockerfile to complete the npm run build step successfully."
+
+Q20. Why did you use nginx:alpine in Stage 2?
+	"I used nginx:alpine for two reasons:
+		○ Nginx is a lightweight high-performance web server perfect for serving static files like HTML, CSS, and JavaScript. The React build output is just static files so Nginx is all we need.
+		○ Alpine version is very small — only 5MB base image. Combined with the static files the final image is about 25MB which is very efficient. Node.js would be completely unnecessary at runtime since we are just serving files — not running JavaScript code."
+
+CATEGORY 5 — Kubernetes Questions
+
+Q21. What is Kubernetes and why did you use it?
+	"Kubernetes is an open-source container orchestration platform. It automatically manages deploying, scaling, and running containers. I used it because:
+		○ It automatically restarts containers if they crash
+		○ It manages rolling updates — new version deploys without downtime
+		○ Services provide stable network endpoints for pods
+		○ Resource limits prevent one app from consuming all node resources
+		○ AKS is fully managed — Azure handles the control plane"
+
+Q22. What is a Pod in Kubernetes?
+	"A Pod is the smallest deployable unit in Kubernetes. It is a wrapper around one or more containers. In my project each pod runs one container — the Nginx container serving the Expense Tracker app. The Deployment manages these pods — it ensures the correct number of pods are always running. If a pod crashes the Deployment automatically creates a new one."
+
+Q23. What is the difference between a Deployment and a Pod?
+	"A Pod is just a running container. If it crashes it stays dead. A Deployment is a controller that manages pods. It ensures the desired number of pods (replicas) are always running. If a pod crashes the Deployment automatically creates a new one to replace it. It also handles rolling updates — when you deploy a new image it creates new pods before removing old ones ensuring zero downtime."
+
+Q24. Explain your deployment.yaml file.
+	"My deployment.yaml has four key sections:
+		○ Header: apiVersion apps/v1 and kind Deployment
+		○ Metadata: name expensetracker and label app: expensetracker
+		○ Spec: replicas 1, selector to find pods with matching label
+		○ Container definition: image from ACR, imagePullPolicy Always, containerPort 80, resource requests of 100m CPU and 32Mi memory, limits of 200m CPU and 64Mi memory The pipeline overrides the :latest image tag with the actual build tag like Develop-45 at deploy time."
+
+Q25. What is the difference between resource requests and limits?
+	"Resource requests is the minimum CPU and memory a pod needs to be scheduled on a node. Kubernetes finds a node with enough free capacity based on this value. If no node has enough — pod stays in Pending state. Resource limits is the maximum CPU and memory the pod can use. If CPU exceeds the limit the container is throttled. If memory exceeds the limit the container is killed and restarted with OOMKill error. In my project I set requests to 100m CPU and 32Mi memory and limits to 200m CPU and 64Mi memory."
+
+Q26. What is a Kubernetes Service? Why do you need it?
+	"A Kubernetes Service is a stable network endpoint that exposes pods to the outside world. Pods are temporary — they get new IP addresses every time they restart. Without a Service there is no stable way to reach the pods. I used LoadBalancer type Service which creates an Azure public Load Balancer with a public IP. Internet traffic hits the public IP, the Service forwards it to the matching pods using label selectors."
+
+Q27. What is the difference between service.yaml and service-dev.yaml?
+	"Both are LoadBalancer Services but with two key differences: service.yaml for production uses port 80 and no fixed IP — Azure assigns the IP automatically. URL is http://4.247.195.11. service-dev.yaml for DEV uses port 8080 and has loadBalancerIP: 4.247.195.11 — a fixed existing IP. I used the same IP on different ports because my Azure for Students subscription has a limit of 3 public IPs and all 3 were already used. I could not create a 4th IP so I reused the existing one on port 8080 for DEV."
+
+Q28. What is selector in Kubernetes Service?
+	"Selector is a label-based matching mechanism that tells the Service which pods to send traffic to. In my service.yaml the selector is app: expensetracker. The Service finds all pods that have the label app: expensetracker and forwards traffic to them. This must match exactly with the labels defined in deployment.yaml template section. This is how Service and Deployment are connected."
+
+Q29. What is imagePullPolicy: Always? Why did you use it?
+	"imagePullPolicy: Always tells Kubernetes to always pull the latest image from ACR every time a pod starts — even if the image already exists on the node. I used this because my pipeline pushes a new image with the same latest tag on every deployment. Without Always policy Kubernetes might use the cached old image from the node and not pick up the new deployment. Always ensures the newest build is always running."
+
+CATEGORY 6 — Pipeline Questions
+
+Q30. Explain your CI/CD pipeline stages.
+	"My pipeline has three stages: Stage 1 Build runs on all branches. It installs Node.js 16, runs npm install, builds the React app, runs tests, builds and pushes Docker image to ACR for main and Develop branches. Feature branches stop here. Stage 2 Deploy Dev runs only when Develop branch build succeeds. It applies deployment.yaml and service-dev.yaml to AKS deploying to DEV at port 8080. Stage 3 Deploy Prod runs only when main branch build succeeds. It applies deployment.yaml and service.yaml deploying to production at port 80."
+
+Q31. What is a service connection in Azure DevOps?
+	"A service connection is a stored credential in Azure DevOps that allows the pipeline to authenticate to external services without hardcoding passwords. I created two service connections: expenseSC — Docker Registry type pointing to ExpensetrackerappACR. The Docker task uses this to push images. kubernetesSC — Kubernetes type pointing to Expensetracker-AKS cluster. The KubernetesManifest task uses this to run kubectl apply."
+
+Q32. What is a pipeline artifact? Why did you use it?
+	"A pipeline artifact is a file or folder published by one stage and downloaded by another stage in the same pipeline run. I published the k8s folder containing deployment.yaml, service.yaml, and service-dev.yaml as an artifact in the Build stage. The Deploy stages download this artifact to get the manifest files. This is needed because different stages run independently and cannot directly access each other's files."
+
+Q33. What is the KubernetesManifest task?
+	"KubernetesManifest is a built-in Azure DevOps task that applies Kubernetes manifest files to a cluster. Internally it runs kubectl apply. The important inputs are:
+		○ action: deploy — runs kubectl apply
+		○ kubernetesServiceConnection — authenticates to AKS
+		○ namespace — which namespace to deploy to
+		○ manifests — the yaml files to apply
+		○ containers — this injects the exact image tag at deploy time overriding the image in deployment.yaml"
+
+Q34. Why do you use (Build.SourceBranch�ame)−(Build.BuildId) as image tag?
+	"I use this combination for two reasons: Build.SourceBranchName gives the branch name — Develop or main. This makes it clear which branch the image came from. Build.BuildId is a unique auto-incremented number for each pipeline run. This makes every build uniquely identifiable. So Develop-45 means it was built from Develop branch in pipeline run 45. If there is a problem in production I can identify exactly which build caused it and roll back to a previous tag like Develop-44."
+
+Q35. What is dependsOn in pipeline stages?
+	"dependsOn specifies that a stage can only start after another stage completes. In my pipeline Deploy_Dev and Deploy_Prod both have dependsOn: Build. This means deployment only starts if the Build stage completed. If build fails deployment never runs — broken code never reaches any environment. This is a critical safety mechanism in the pipeline."
+
+Q36. What is an Environment in Azure DevOps?
+	"An Environment in Azure DevOps is a logical representation of a deployment target like development or production. I created two environments — development and production. Every deployment is recorded in the environment with timestamp, build number, and success or failure status. This gives a complete audit trail of what was deployed when and by which pipeline run. You can also add approval gates on environments — for example requiring manual approval before deploying to production."
+
+CATEGORY 7 — Challenges Questions
+
+Q37. What challenges did you face in this project?
+	"I faced 13 real challenges. The most significant ones were:
+		1. Node.js and webpack version incompatibility — webpack 4 does not support Node 18 OpenSSL 3.0. Fixed by downgrading to Node 16.
+		2. Azure public IP quota limit — Azure for Students only allows 3 IPs and all were used. Fixed by sharing the same IP for DEV and PROD on different ports.
+		3. Pods in Pending state — CPU requests were too high for the small AKS node. Fixed by reducing CPU requests from 250m to 100m and replicas from 2 to 1.
+		4. Docker permission denied — agent user not in docker group. Fixed by usermod and chmod on the VM."
+
+Q38. How did you resolve the Public IP limit issue?
+	"My Azure for Students subscription allows only 3 public IPs in Central India. All 3 were used — one for the agent VM, one for AKS internal load balancer, and one for the production service. When I tried to create a LoadBalancer service for DEV environment Azure could not provision a 4th IP and threw PublicIPCountLimitReached error. I resolved it by using the same existing IP 4.247.195.11 for both environments but on different ports. Production uses port 80 without a fixed IP specification. DEV uses port 8080 with loadBalancerIP: 4.247.195.11 to reuse the existing IP. This way both environments share one IP without needing a second one."
+
+Q39. How did you fix the pods Pending issue?
+	"I ran kubectl describe pod and found the event message: 0/1 nodes available Insufficient cpu. Then I ran kubectl describe nodes and saw the node was at 89% CPU usage with only 198m CPU free. My deployment.yaml had replicas: 2 with cpu requests: 250m each — total 500m which exceeded available CPU. I fixed it by reducing replicas to 1 and cpu requests from 250m to 100m and memory from 64Mi to 32Mi. After this the pod was successfully scheduled and entered Running state."
+
+Q40. Why did you face the InvalidImageName error?
+	"My Azure Repos branch was named Develop with a capital D. The pipeline variable Build.SourceBranchName returns the exact branch name — so it returned Develop with capital D. The Docker image was pushed with tag Develop-39. But in the pipeline conditions and trigger I had written develop with lowercase d in some places. This caused a mismatch — the condition for Deploy stage was checking refs/heads/develop lowercase and never matched refs/heads/Develop uppercase so the deployment tried to pull develop-39 lowercase which did not exist in ACR. I fixed it by making all references consistently use capital Develop throughout the trigger, conditions, and image tag."
+
+CATEGORY 8 — General DevOps Questions
+
+Q41. What is CI/CD?
+	"CI stands for Continuous Integration — automatically building and testing code every time a developer pushes changes. CD stands for Continuous Deployment — automatically deploying the tested code to environments. In my project CI happens in the Build stage — every push triggers build and test. CD happens in Deploy stages — after build passes the app is automatically deployed to DEV or PROD based on the branch."
+
+Q42. What is the difference between CI and CD?
+	"CI — Continuous Integration — focuses on automatically building and testing code whenever developers push changes. The goal is to detect integration problems early. CD — Continuous Deployment — focuses on automatically deploying the tested and validated code to target environments. In my project Develop branch triggers CD to DEV and main branch triggers CD to PROD. Together they ensure code is always tested before deployment and deployment is always automated."
+
+Q43. What is a namespace in Kubernetes?
+	"A namespace is a way to logically divide a single Kubernetes cluster into multiple virtual clusters. In my project I used the default namespace for both DEV and PROD deployments since I had only one AKS cluster. In a production setup you would typically have separate namespaces like develop, staging, and production within the same cluster to keep workloads isolated from each other."
+
+Q44. What is kubectl?
+	"kubectl is the command line tool for interacting with a Kubernetes cluster. Common commands I used:
+		○ kubectl get pods — check if pods are running
+		○ kubectl get services — check external IP and ports
+		○ kubectl describe pod — see detailed info and events
+		○ kubectl get nodes — check node status
+		○ kubectl apply -f file.yaml — apply manifest files
+		○ kubectl get deployment — check deployment status"
+
+Q45. What is the difference between Docker image and Docker container?
+	"A Docker image is a read-only template — like a blueprint or a class in programming. It contains the application code, dependencies, and configuration baked in. A Docker container is a running instance of an image — like an object created from a class. You can run multiple containers from the same image. In my project the pipeline builds and pushes the image to ACR. Kubernetes creates containers from that image when it starts pods."
+
+CATEGORY 9 — Scenario Based Questions
+
+Q46. What happens if the build fails on a feature branch?
+	"If the build fails on a feature branch the pipeline shows a failed status in Azure DevOps. The branch policy on Develop is set to require a passing build before PR can be completed. So the developer cannot merge the failing feature branch into Develop until the build is fixed. This ensures only working code enters the Develop integration branch."
+
+Q47. What happens if deployment to DEV fails?
+	"If deployment to DEV fails the pipeline shows a failed status in the Deploy_Dev stage. The DEV environment dashboard in Azure DevOps records the failed deployment with a red status. The production environment is completely unaffected — main branch has its own separate Deploy_Prod stage which only triggers on main branch. DEV and PROD deployments are independent of each other."
+
+Q48. How do you verify the deployment was successful?
+	"After deployment I verify using these kubectl commands:
+		○ kubectl get pods — check pods are in Running state with 1/1 Ready
+		○ kubectl get services — check EXTERNAL-IP is assigned and ports are correct
+		○ kubectl get deployment — check desired and available replicas match Then I open the browser — http://4.247.195.11:8080 for DEV and http://4.247.195.11 for PROD and confirm the Expense Tracker app loads correctly."
+
+Q49. How do you roll back a bad deployment?
+	"Since I tag every Docker image with branch name and build ID like Develop-45, I can roll back by:
+		○ Updating the image tag in deployment.yaml to a previous working version like Develop-44
+		○ Running kubectl apply -f deployment.yaml
+		○ Or in the pipeline re-running a previous successful pipeline run which redeploys the previous image Kubernetes performs a rolling update during rollback ensuring zero downtime."
+
+Q50. If you had more time what would you improve in this project?
+	"I would add several improvements:
+		○ Add manual approval gate on production environment so someone must approve before every PROD deploy
+		○ Set up Azure Monitor and Container Insights for proper pod monitoring and alerting
+		○ Add Horizontal Pod Autoscaler to automatically scale pods based on CPU usage
+		○ Use Azure Key Vault to store secrets instead of hardcoding in manifests
+		○ Add a staging environment between DEV and PROD for UAT testing
+		○ Implement blue-green or canary deployment strategy for zero-risk production releases
+		○ Request quota increase to get more public IPs so DEV and PROD have separate IPs"
+
+Quick Reference — One Line Answers
+Question	One Line Answer
+What is Docker?	Packages app with dependencies into a portable container
+What is AKS?	Managed Kubernetes service on Azure
+What is ACR?	Private Docker image registry on Azure
+What is GitFlow?	Branching strategy — feature → Develop → main
+What is CI/CD?	Automates build test and deploy on every code push
+What is a Service?	Exposes pods to internet via stable network endpoint
+What is a Deployment?	Manages pod lifecycle — scaling updates rollbacks
+What is a namespace?	Logical division of Kubernetes cluster
+What is kubectl?	CLI tool to interact with Kubernetes cluster
+What is a pipeline artifact?	Files shared between pipeline stages
+
+Q1. What is Azure DevOps? A Microsoft platform offering end-to-end DevOps tools — Boards, Repos, Pipelines, Test Plans, and Artifacts — to plan, build, test, and deploy software.
+Q2. What is Azure Pipelines? A CI/CD service that automates building, testing, and deploying code to any platform or cloud using YAML or classic GUI-based pipelines.
+Q3. What is the difference between CI and CD? CI (Continuous Integration) automatically builds and tests code on every commit; CD (Continuous Delivery/Deployment) automatically deploys validated code to target environments.
+Q4. What is a YAML pipeline? A pipeline defined as code in an azure-pipelines.yml file stored in the repo — version-controlled, reviewable via PRs, and reusable across projects.
+Q5. What are stages, jobs, and steps? Stage is a logical phase (Build/Deploy); Job is a set of steps running on one agent; Step is a single task or script — hierarchy is Pipeline → Stage → Job → Step.
+Q6. What is an agent pool? A collection of agents (machines) that run pipeline jobs — Microsoft-hosted pools are managed by Azure; self-hosted pools are machines you configure and maintain.
+Q7. What is a service connection? A stored credential/endpoint in Azure DevOps that allows pipelines to securely connect to external services like Azure subscriptions, Docker Hub, or Kubernetes.
+Q8. What is a variable group? A shared set of variables (including secrets) that can be linked across multiple pipelines — can be backed by Azure Key Vault for secure secret management.
+Q9. What are pipeline templates? Reusable YAML fragments (stages/jobs/steps) stored in a central repo and referenced across pipelines to enforce DRY principles and governance.
+Q10. What is an Environment in Azure Pipelines? A logical target for deployments (e.g., Dev, QA, Prod) that tracks deployment history, supports approval gates, and records which version was deployed where.
+Q11. What are approval gates? Checks configured on an Environment that pause a pipeline and wait for designated approvers before allowing deployment to proceed.
+Q12. What are deployment strategies? Patterns for releasing updates — runOnce (deploy once), rolling (replace instances gradually), canary (shift small traffic % first then full rollout).
+Q13. What is Azure Repos? A source control service supporting Git (distributed) and TFVC (centralized) repositories with branch policies, PRs, and code review workflows.
+Q14. What are branch policies? Rules enforced on protected branches (like main) — requiring reviewers, a passing build, linked work items, or specific merge strategies before a PR can merge.
+Q15. What is Azure Boards? An Agile project management tool supporting work items, backlogs, sprint planning, Kanban boards, and burndown charts across Scrum/Agile/CMMI processes.
+Q16. What is the difference between a Kanban board and a Sprint board? Kanban shows continuous flow of all backlog items across columns; Sprint board shows only items committed to the current sprint broken down into tasks.
+Q17. What is Azure Artifacts? A package management service supporting NuGet, npm, Maven, PyPI, and Universal Packages — with upstream source proxying and caching from public registries.
+Q18. What is RBAC in Azure DevOps? Role-Based Access Control assigns permissions at org, project, or object level — roles like Project Administrator, Contributor, and Reader control what users can do.
+Q19. What are pipeline decorators? Extension-based steps injected automatically into every pipeline across an org (e.g., security scans) — invisible to pipeline authors, used for governance enforcement.
+Q20. What is workload identity federation? A secretless authentication method for Azure service connections using OIDC tokens — eliminates the need to store or rotate credentials in Azure DevOps.
+Q21. What is a fork vs a branch? A branch is a pointer within the same repo; a fork is a full copy of the repo under a different account — used when contributors lack direct write access.
+Q22. What is a trigger in Azure Pipelines? A condition that starts a pipeline automatically — CI triggers fire on code push, PR triggers on pull requests, scheduled triggers on a cron schedule.
+Q23. What is a multi-stage pipeline? A single YAML pipeline with separate stages for each environment (Dev → QA → Prod), using dependsOn for sequencing and approvals for controlled promotion.
+Q24. What is condition in a pipeline? A YAML expression that controls whether a step/job/stage runs — e.g., condition: eq(variables['Build.SourceBranch'], 'refs/heads/main') to deploy only from main.
+Q25. What is artifact publishing and downloading? PublishBuildArtifacts uploads build outputs (binaries, packages) from one stage; DownloadBuildArtifacts retrieves them in a later stage for deployment.
+
+Kubernetes
+Q: What is Kubernetes? A: Open-source container orchestration platform that automates deployment, scaling, and management of containerized apps. Google open-sourced it in 2014.
+Q: What is a Pod? A: Smallest deployable unit in Kubernetes holding one or more containers sharing the same network and storage. All containers in a pod run on the same node.
+Q: What is a Node? A: A physical or virtual machine that runs pods managed by the control plane. Each node has kubelet, kube-proxy, and a container runtime.
+Q: What is a Deployment? A: Controller that manages stateless pods ensuring desired replicas are always running. Supports rolling updates and rollbacks.
+Q: What is a ReplicaSet? A: Ensures a specified number of pod replicas are running at all times. Deployments manage ReplicaSets automatically — rarely used directly.
+Q: What is a Service? A: Stable network endpoint that exposes pods using label selectors. Types: ClusterIP, NodePort, LoadBalancer, ExternalName.
+Q: ClusterIP vs NodePort vs LoadBalancer? A: ClusterIP is internal only; NodePort exposes on a static port on each node; LoadBalancer provisions a cloud LB with an external IP.
+Q: What is a Namespace? A: Virtual cluster within Kubernetes to isolate resources between teams or environments. Default namespaces: default, kube-system, kube-public.
+Q: What is a ConfigMap? A: Stores non-sensitive config data as key-value pairs injected into pods as env vars or volume files. Decouples config from container images.
+Q: What is a Secret? A: Stores sensitive data like passwords in base64-encoded form. Not encrypted by default — use Vault or KMS for real encryption.
+Q: What is a StatefulSet? A: Manages stateful apps needing stable network IDs and persistent storage (e.g., databases). Pods are created/deleted in order unlike Deployments.
+Q: What is a DaemonSet? A: Ensures one pod runs on every node. Commonly used for log collectors, monitoring agents, and network plugins.
+Q: What is a PersistentVolume (PV)? A: Cluster-level storage resource provisioned by an admin or dynamically via StorageClass. Decouples storage from the pod lifecycle.
+Q: What is a PVC? A: PersistentVolumeClaim is a user request for storage that binds to a matching PV. Pods use PVCs to mount persistent storage.
+Q: What is kube-scheduler? A: Watches for unscheduled pods and assigns them to the best node based on resource requests, affinity rules, and taints/tolerations.
+Q: What is etcd? A: Distributed key-value store that holds all Kubernetes cluster state and configuration. It is the single source of truth for the control plane.
+Q: What is kubelet? A: Agent on every node that ensures containers in PodSpecs are running and healthy. Talks to the API server and manages pod lifecycle.
+Q: What is kube-proxy? A: Network proxy on each node that maintains iptables/IPVS rules to route traffic to the correct pod for each Service.
+Q: What are Liveness and Readiness probes? A: Liveness restarts a container if it becomes unhealthy; Readiness removes a pod from Service endpoints until it is ready to serve traffic.
+Q: What are Resource Requests and Limits? A: Requests are minimum CPU/memory needed for scheduling; Limits are the maximum before throttling or OOM-kill.
+Q: What is HPA? A: Horizontal Pod Autoscaler scales pod replicas based on CPU, memory, or custom metrics. Works with Deployments and StatefulSets.
+Q: What is VPA? A: Vertical Pod Autoscaler adjusts CPU/memory requests for pods based on actual usage. Requires a pod restart to apply changes.
+Q: What are Taints and Tolerations? A: Taints repel pods from nodes; Tolerations on pods allow them to be scheduled on tainted nodes. Used to dedicate nodes for specific workloads.
+Q: What is Node Affinity? A: Rules that constrain which nodes a pod can be scheduled on based on node labels. Required affinity is hard; preferred affinity is soft.
+Q: What is a Job and CronJob? A: A Job runs pods to completion (batch tasks); a CronJob schedules Jobs on a cron time expression.
+Q: What is an Ingress? A: API object that manages HTTP/HTTPS routing to services via host/path rules. Requires an Ingress Controller (e.g., NGINX, Traefik) to function.
+Q: What is RBAC? A: Role-Based Access Control restricts who can do what in the cluster. Key objects: Role, ClusterRole, RoleBinding, ClusterRoleBinding.
+Q: What is a ServiceAccount? A: An identity for pods to authenticate with the Kubernetes API. Pods use the ServiceAccount token to call API server endpoints.
+
+AKS
+Q: What is AKS? A: Azure Kubernetes Service is Microsoft's fully managed Kubernetes offering. Azure handles the control plane — you only manage and pay for worker nodes.
+Q: How does AKS differ from self-managed Kubernetes? A: AKS fully manages the control plane (upgrades, patching, HA) at no cost. You only provision and pay for agent node pools.
+Q: What is an AKS Node Pool? A: A group of VMs with the same configuration (size, OS, Kubernetes version). AKS supports multiple node pools per cluster for mixed workloads.
+Q: What is the AKS system node pool? A: Required node pool that runs critical system pods like CoreDNS and metrics-server. Must use Linux nodes with at least 2 vCPUs.
+Q: What is Azure CNI vs Kubenet in AKS? A: Azure CNI assigns real VNET IPs to every pod (more IPs needed); Kubenet uses NAT with fewer IPs but limited network policy support.
+Q: What is AKS Cluster Autoscaler? A: Automatically adds or removes nodes in a node pool based on pending pod demand and node utilization. Configured per node pool with min/max counts.
+Q: What is Azure AD integration in AKS? A: Allows Azure AD users and groups to authenticate to AKS via RBAC bindings. Uses managed identity — no manual credential management needed.
+Q: What is AKS Workload Identity? A: Lets pods use Azure AD federated credentials to access Azure resources without storing secrets. Replaces the older pod identity approach.
+Q: What is Azure Key Vault Secrets Provider for AKS? A: A CSI driver addon that mounts Azure Key Vault secrets as volumes into pods. Secrets sync automatically when updated in Key Vault.
+Q: What is AKS Managed Identity? A: Azure-managed identity assigned to the AKS cluster to interact with Azure resources (ACR, VNET, disks) without storing credentials in code.
+Q: How do you upgrade an AKS cluster? A: Run az aks upgrade — control plane upgrades first, then node pools are cordoned/drained/reimaged one by one to minimize downtime.
+Q: What is ACR integration with AKS? A: Attaches an Azure Container Registry to AKS using --attach-acr so the cluster can pull images without separate pull secrets.
+Q: What is Azure Monitor for AKS? A: Container Insights collects metrics and logs from pods/nodes into Log Analytics. Enables dashboards and alerts in Azure Monitor.
+Q: What are AKS Virtual Nodes? A: Allow AKS to burst pods to Azure Container Instances instantly without provisioning new VMs. Uses Virtual Kubelet under the hood.
+Q: What is an AKS Spot Node Pool? A: Uses low-cost Azure Spot VMs for fault-tolerant batch workloads. Spot nodes can be evicted with 30 seconds notice.
+Q: What is the AKS API server authorized IP range? A: Restricts which IPs can reach the Kubernetes API server public endpoint. Improves security by limiting exposure to known IPs.
+Q: What is a Private AKS Cluster? A: API server has no public endpoint — only reachable via Private Link within the VNET. Requires Azure Private DNS for name resolution.
+Q: What is GitOps with AKS (Flux)? A: The AKS GitOps addon uses Flux v2 to continuously sync cluster state from a Git repo. Changes to Git automatically apply to the cluster.
+
+Advanced
+Q: What is a Network Policy? A: Kubernetes resource that controls pod-to-pod traffic using label selectors. Requires a CNI plugin that supports it (Calico, Azure NPM, Cilium).
+Q: What is a PodDisruptionBudget (PDB)? A: Limits how many pods can be unavailable during voluntary disruptions like upgrades or node drains. Ensures minimum availability.
+Q: What is an Init Container? A: Runs to completion before app containers start in a pod. Used for setup tasks like loading configs or waiting for services.
+Q: What is a Sidecar Container? A: Helper container in the same pod that adds functionality like logging or auth (e.g., Envoy in a service mesh).
+Q: What is a CRD? A: Custom Resource Definition extends the Kubernetes API with new resource types. Combined with a custom controller, it manages complex apps declaratively.
+Q: What is the Operator pattern? A: A Kubernetes controller that encodes operational knowledge for a stateful app using CRDs and control loops (e.g., backups, upgrades).
+Q: What is Helm? A: Package manager for Kubernetes that bundles manifests into charts with templating and versioning. helm install/upgrade deploys apps easily.
+Q: What is a Service Mesh (e.g., Istio)? A: Dedicated infrastructure layer for service-to-service communication providing mTLS, traffic management, observability, and circuit breaking.
+Q: What is OPA/Gatekeeper? A: Open Policy Agent with Gatekeeper enforces custom admission policies (e.g., require resource limits) using Rego rules as ValidatingWebhookConfigurations.
+Q: What is KEDA? A: Kubernetes Event-Driven Autoscaler scales deployments to zero or based on external event sources (queues, Kafka, HTTP). Works alongside HPA.
+Q: What is pod topology spread? A: Uses topologySpreadConstraints to evenly distribute pods across zones or nodes, improving HA and avoiding single-AZ concentration.
+Q: Why is etcd backup critical? A: etcd holds all cluster state — losing it means losing the cluster. Back up regularly using etcdctl snapshot save and store off-cluster.
+Q: What is a Validating vs Mutating Webhook? A: Mutating webhooks modify resource fields on admission (e.g., inject sidecars); Validating webhooks approve or reject resources based on policy.
+
+
+
+Taint
+	"A taint is a restriction placed on a node that prevents pods from being scheduled on it unless the pod has a matching toleration."
+
+Toleration
+	"A toleration is added to a pod to allow it to be scheduled on a node that has a matching taint."
+
+Node Affinity
+	"Node affinity is a rule on a pod that says which nodes it prefers or must run on, based on node labels."
+
+Pod Affinity
+	"Pod affinity is a rule that schedules a pod close to another pod — like running a web app on the same node as its Redis cache for low latency."
+
+Pod Anti-Affinity
+	"Pod anti-affinity is a rule that schedules a pod away from another pod — like spreading replicas across different nodes for high availability."
+
+One Liner Difference
+Taint          →  Node repels pods
+Toleration     →  Pod handles node restriction
+Node Affinity  →  Pod attracted to a node
+Pod Affinity   →  Pod attracted to another pod
+Anti-Affinity  →  Pod repelled from another pod
+
+Bonus — Interviewer Follow-up Answers
+Q: Difference between Taint and Node Affinity?
+	"Taint is set on the node to repel pods. Node Affinity is set on the pod to attract it to a node."
+Q: Can a pod with toleration still run on normal nodes?
+	"Yes — toleration only means the pod can run on tainted node, not that it must. Use Node Affinity to force it."
+Q: When would you use Pod Anti-Affinity?
+	"To spread replicas across nodes so if one node fails, other replicas are still running — ensuring high availability."
+
+
+
+
+
+
+
+
+
+
+
